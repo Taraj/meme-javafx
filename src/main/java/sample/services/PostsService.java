@@ -38,7 +38,7 @@ public interface PostsService {
     Call<List<Comment>> addComment(@Path("id") long id, @Body AddComment comment, @Header("Authorization") String token);
 
     @POST("posts/{id}/feedback")
-    Call<Void> addFeedback(@Path("id") long id, @Body AddFeedback feedback, @Header("Authorization") String token);
+    Call<Void> addFeedback(@Path("id") long id, @Body AddFeedback feedback);
 
     @GET("posts/{id}/feedback")
     Call<PostFeedback> getFeedback(@Path("id") long id, @Header("Authorization") String token);

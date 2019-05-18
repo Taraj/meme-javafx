@@ -22,6 +22,20 @@ public class Controller implements Callback<List<Post>> {
     @FXML
     private void test() {
         postsService.getPosts(0, true).enqueue(this);
+/*
+
+        postsService.getRandomPost().enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable throwable) {
+
+            }
+        });
+        */
     }
 
     public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {

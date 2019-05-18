@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AddFeedback {
-    private boolean isLike;
+public class ResetPassword {
+    private String usernameOrEmail;
 }
