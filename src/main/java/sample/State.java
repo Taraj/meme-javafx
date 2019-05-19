@@ -9,7 +9,6 @@ public class State {
 
     @Getter
     private static SimpleBooleanProperty isAuthenticated = new SimpleBooleanProperty(false);
-
     @Getter
     private static String token = null;
 
@@ -20,7 +19,8 @@ public class State {
             State.token = null;
         } else {
             isAuthenticated.set(true);
-            State.token = token;
+            State.token = "Bearer " + token;
         }
     }
+
 }

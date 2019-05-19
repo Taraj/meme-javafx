@@ -13,18 +13,22 @@
          <font>
             <Font name="System Bold" size="41.0" />
          </font></Label>
-      <PasswordField layoutX="728.0" fx:id="passwordField" layoutY="400.0" prefHeight="25.0" prefWidth="301.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
-      <Button layoutX="500.0" layoutY="442.0" onAction="#login" mnemonicParsing="false" text="Zaloguj" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="700.0" />
+      <PasswordField fx:id="passwordField" layoutX="728.0" layoutY="400.0" prefHeight="25.0" prefWidth="301.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
+      <Button layoutX="500.0" layoutY="442.0" mnemonicParsing="false" onAction="#login" text="Zaloguj" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="700.0" />
       <Label layoutX="502.0" layoutY="289.0" text="Login" AnchorPane.leftAnchor="500.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="500.0"  layoutY="375.0" text="Hasło" AnchorPane.leftAnchor="500.0">
+      <Label layoutX="500.0" layoutY="375.0" text="Hasło" AnchorPane.leftAnchor="500.0">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField layoutX="500.0"  fx:id="loginField"  layoutY="323.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
+      <TextField fx:id="loginField" layoutX="500.0" layoutY="323.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
+      <Button layoutX="521.0" layoutY="522.0" mnemonicParsing="false" onAction="#register" text="Zarejestruj" AnchorPane.leftAnchor="525.0" />
+      <Label layoutX="382.0" layoutY="526.0" text="Nie masz jeszcze konta?" AnchorPane.leftAnchor="375.0" />
+      <Label layoutX="382.0" layoutY="581.0" text="Nie pamiętasz Hasła?" AnchorPane.leftAnchor="375.0" />
+      <Button layoutX="515.0" layoutY="577.0" mnemonicParsing="false" text="Zresetuj" onAction="#reset" AnchorPane.leftAnchor="525.0" />
     </children>
 </AnchorPane>

@@ -5,9 +5,9 @@ import java.util.function.Consumer;
 
 public abstract class SuperPage {
 
-    protected Consumer<Class<?>> router;
+    protected Consumer<Class<? extends SuperPage>> router;
 
-    public void setRouter(Consumer<Class<?>> router) {
+    public void setRouter(Consumer<Class<? extends SuperPage>> router) {
         this.router = router;
     }
 

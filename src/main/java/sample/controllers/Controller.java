@@ -32,9 +32,9 @@ public class Controller implements Initializable {
     @FXML
     private VBox mainMenu;
 
-    private List<Class<?>> pages;
+    private List<Class<? extends SuperPage>> pages;
 
-    private Class<?> initPage;
+    private Class<? extends SuperPage> initPage;
 
 
     @Override
@@ -67,12 +67,13 @@ public class Controller implements Initializable {
 
     private void buttonClicked(ActionEvent event) {
         Button source = ((Button) event.getSource());
-        Class<?> clazz = (Class<?>) source.getUserData();
+
+        Class<? extends SuperPage> clazz = (Class<? extends SuperPage>) source.getUserData();
         loadNewPage(clazz);
     }
 
 
-    private void loadNewPage(Class<?> clazz) {
+    private void loadNewPage(Class<? extends SuperPage> clazz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(clazz.getAnnotation(Page.class).resource()));
             Pane pane = loader.load();
@@ -86,12 +87,12 @@ public class Controller implements Initializable {
 
     private void initializeMenu() {
         mainMenu.getChildren().removeIf(node -> node instanceof Button);
-        for (Class<?> page : pages) {
+        for (Class<? extends SuperPage> page : pages) {
             createMenuButton(page.getAnnotation(Page.class).name(), page);
         }
     }
 
-    private void createMenuButton(String text, Class<?> page) {
+    private void createMenuButton(String text, Class<? extends SuperPage> page) {
         Button button = new Button(text);
         VBox.setVgrow(button, Priority.ALWAYS);
         button.setMaxWidth(Double.MAX_VALUE);

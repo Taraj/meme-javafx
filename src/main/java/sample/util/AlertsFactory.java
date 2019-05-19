@@ -53,4 +53,29 @@ public class AlertsFactory {
             alert.showAndWait();
         });
     }
+
+    public static void inputError(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Błąd");
+            alert.setHeaderText("Wprowadzono niepoprawne dane.");
+            alert.setContentText(message);
+
+            alert.showAndWait();
+        });
+    }
+
+    public static void success(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Sukces");
+            alert.setHeaderText("Operacja zakończona powodzeniem.");
+            alert.setContentText(message);
+
+            alert.showAndWait();
+        });
+    }
+
 }

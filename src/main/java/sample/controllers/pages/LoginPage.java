@@ -29,16 +29,17 @@ public class LoginPage extends SuperPage {
 
     @FXML
     private void login() {
-        Login login = Login.builder()
+        Login loginDto = Login.builder()
                 .username(loginField.getText())
                 .password(passwordField.getText())
                 .build();
 
-        authService.login(login).enqueue(new Callback<AuthResponse>() {
+        authService.login(loginDto).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (!response.isSuccessful()) {
                     AlertsFactory.responseStatusError(response.errorBody());
+                    return;
                 }
 
                 if (response.body() != null) {
@@ -52,5 +53,14 @@ public class LoginPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+    @FXML
+    private void register(){
+        router.accept(RegisterPage.class);
+    }
+
+    @FXML
+    private void reset(){
+        router.accept(ResetPasswordPage.class);
     }
 }
