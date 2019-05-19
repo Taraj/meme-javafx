@@ -1,6 +1,7 @@
 package sample.controllers;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import sample.State;
 import sample.controllers.pages.*;
+import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
 
@@ -29,30 +32,34 @@ public class Controller implements Initializable {
     @FXML
     private VBox mainMenu;
 
-    private List<Class<?>> pages = new ArrayList<>();
+    private List<Class<?>> pages;
 
     private Class<?> initPage;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initPage = MainPage.class;
+        setMenuItems();
+        openInitPage();
+        State.getIsAuthenticated().addListener((observable, oldValue, newValue) -> Platform.runLater(this::setMenuItems));
+    }
+
+    private void setMenuItems() {
+        pages = new ArrayList<>();
         pages.add(MainPage.class);
         pages.add(QueuePage.class);
         pages.add(RandomPage.class);
-        if (false) {
-            pages.add(LoginPage.class);
-        } else {
+        if (State.getIsAuthenticated().get()) {
             pages.add(AddPage.class);
             pages.add(AccountPage.class);
             pages.add(LogoutPage.class);
+        } else {
+            pages.add(LoginPage.class);
         }
-
-
-        initPage = MainPage.class;
-
         initializeMenu();
-        openInitPage();
     }
+
 
     private void openInitPage() {
         loadNewPage(initPage);
@@ -71,13 +78,14 @@ public class Controller implements Initializable {
             Pane pane = loader.load();
             SuperPage controller = loader.getController();
             controller.setRouter(this::loadNewPage);
-            mainContainer.getChildren().setAll(pane);
+            Platform.runLater(()-> mainContainer.getChildren().setAll(pane));
         } catch (IOException e) {
-            e.printStackTrace();
+            AlertsFactory.unknownError(e.getMessage());
         }
     }
 
     private void initializeMenu() {
+        mainMenu.getChildren().removeIf(node -> node instanceof Button);
         for (Class<?> page : pages) {
             createMenuButton(page.getAnnotation(Page.class).name(), page);
         }
