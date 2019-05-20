@@ -25,6 +25,7 @@ public interface PostsService {
     @GET("posts/random")
     Call<Post> getRandomPost();
 
+    //TODO
     @POST("posts/")
     Call<Void> addPost(@Body AddPost post, @Header("Authorization") String token);
 

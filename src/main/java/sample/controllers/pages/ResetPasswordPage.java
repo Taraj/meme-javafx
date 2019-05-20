@@ -32,7 +32,7 @@ public class ResetPasswordPage extends SuperPage {
                     return;
                 }
                 AlertsFactory.success("Wysłano");
-                router.accept(ConfirmResetPasswordPage.class);
+                router.accept(ConfirmResetPasswordPage.class, null);
             }
 
             @Override
@@ -44,7 +44,7 @@ public class ResetPasswordPage extends SuperPage {
 
     @FXML
     private void confirm(){
-        router.accept(ConfirmResetPasswordPage.class);
+        router.accept(ConfirmResetPasswordPage.class,null);
     }
 
 }

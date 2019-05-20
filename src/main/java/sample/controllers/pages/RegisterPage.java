@@ -34,7 +34,7 @@ public class RegisterPage extends SuperPage {
 
     @FXML
     private void login() {
-        router.accept(LoginPage.class);
+        router.accept(LoginPage.class,null);
     }
 
     private AuthService authService = RetrofitInstance.getInstance().create(AuthService.class);
@@ -63,7 +63,7 @@ public class RegisterPage extends SuperPage {
 
                 if (response.body() != null) {
                     State.setToken(response.body().getAccessToken());
-                    router.accept(AccountPage.class);
+                    router.accept(AccountPage.class,null);
                 }
             }
 

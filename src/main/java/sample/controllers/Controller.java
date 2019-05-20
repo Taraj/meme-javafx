@@ -62,23 +62,25 @@ public class Controller implements Initializable {
 
 
     private void openInitPage() {
-        loadNewPage(initPage);
+        loadNewPage(initPage, null);
     }
 
     private void buttonClicked(ActionEvent event) {
         Button source = ((Button) event.getSource());
 
         Class<? extends SuperPage> clazz = (Class<? extends SuperPage>) source.getUserData();
-        loadNewPage(clazz);
+        loadNewPage(clazz, null);
     }
 
 
-    private void loadNewPage(Class<? extends SuperPage> clazz) {
+    private void loadNewPage(Class<? extends SuperPage> clazz, Object data) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(clazz.getAnnotation(Page.class).resource()));
             Pane pane = loader.load();
             SuperPage controller = loader.getController();
             controller.setRouter(this::loadNewPage);
+            controller.setData(data);
+            controller.init();
             Platform.runLater(()-> mainContainer.getChildren().setAll(pane));
         } catch (IOException e) {
             AlertsFactory.unknownError(e.getMessage());

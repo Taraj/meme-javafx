@@ -44,7 +44,7 @@ public class LoginPage extends SuperPage {
 
                 if (response.body() != null) {
                     State.setToken(response.body().getAccessToken());
-                    router.accept(AccountPage.class);
+                    router.accept(AccountPage.class,null);
                 }
             }
 
@@ -56,11 +56,11 @@ public class LoginPage extends SuperPage {
     }
     @FXML
     private void register(){
-        router.accept(RegisterPage.class);
+        router.accept(RegisterPage.class,null);
     }
 
     @FXML
     private void reset(){
-        router.accept(ResetPasswordPage.class);
+        router.accept(ResetPasswordPage.class,null);
     }
 }

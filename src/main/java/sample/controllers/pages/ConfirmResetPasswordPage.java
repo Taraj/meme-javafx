@@ -45,7 +45,7 @@ public class ConfirmResetPasswordPage extends SuperPage {
                     return;
                 }
                 AlertsFactory.success("Nowe Hasło zostało wysłane");
-                router.accept(LoginPage.class);
+                router.accept(LoginPage.class,null);
             }
 
             @Override

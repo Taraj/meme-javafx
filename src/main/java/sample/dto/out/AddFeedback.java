@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class AddFeedback {
-    private boolean isLike;
+    //TODO
+    private boolean like;
 }
