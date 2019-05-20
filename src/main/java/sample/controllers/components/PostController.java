@@ -11,16 +11,23 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import sample.controllers.pages.MainPage;
+import sample.controllers.pages.MemePage;
+import sample.controllers.pages.TagPage;
+import sample.controllers.pages.UserPage;
 import sample.dto.in.Post;
 import sample.dto.in.Tag;
 import sample.dto.out.AddFeedback;
 import sample.services.PostsService;
 import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
+import sample.util.SuperProps;
 import sample.util.SuperPage;
+
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -65,11 +72,8 @@ public class PostController {
     @FXML
     private HBox tagContainer;
 
-    private BiConsumer<Class<? extends SuperPage>, Object> router;
-
-    public void setRouter(BiConsumer<Class<? extends SuperPage>, Object> router) {
-        this.router = router;
-    }
+    @Setter
+    private BiConsumer<Class<? extends SuperPage>, SuperProps> router;
 
 
     private void addFeedback(boolean isLike) {
@@ -152,17 +156,17 @@ public class PostController {
 
     @FXML
     private void openMeme() {
-        System.out.println("Open meme" + post.getId());
+        router.accept(MemePage.class, new MemePage.Props((int) post.getId()));
     }
 
     @FXML
     private void openUser() {
-        System.out.println("Open user" + post.getAuthor().getNickname());
+        router.accept(UserPage.class, new UserPage.Props(1, post.getAuthor().getNickname()));
     }
 
     private void openTag(MouseEvent event) {
         Label label = (Label) event.getSource();
         Tag tag = (Tag) label.getUserData();
-        System.out.println("Open Tag" + tag.getName());
+        router.accept(TagPage.class, new TagPage.Props(1, tag.getName()));
     }
 }

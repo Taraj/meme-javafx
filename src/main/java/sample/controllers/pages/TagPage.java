@@ -12,45 +12,47 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sample.controllers.components.PostController;
 import sample.dto.in.Post;
-import sample.services.PostsService;
 import sample.services.RetrofitInstance;
+import sample.services.TagService;
 import sample.util.AlertsFactory;
 import sample.util.Page;
-import sample.util.SuperPage;
 import sample.util.SuperProps;
+import sample.util.SuperPage;
 
 import java.io.IOException;
 import java.util.List;
 
-@Page(name = "Poczekalnia", resource = "/pages/queue.fxml")
-public class QueuePage extends SuperPage {
+@Page(resource = "/pages/tag.fxml")
+public class TagPage extends SuperPage {
 
     @AllArgsConstructor
     public static class Props implements SuperProps {
         private int pageNumber;
+        private String tag;
     }
 
 
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
+    private TagService tagService = RetrofitInstance.getInstance().create(TagService.class);
 
     @FXML
     private VBox mainContainer;
 
     @FXML
     private void openNextPage() {
-        router.accept(QueuePage.class, new Props(getPageNumber() + 1));
+        router.accept(TagPage.class, new TagPage.Props(getPageNumber() + 1, getTagName()));
     }
 
     @FXML
     private void openPreviousPage() {
-        router.accept(QueuePage.class, new Props(Math.max(getPageNumber() - 1, 1)));
+        router.accept(TagPage.class, new TagPage.Props(Math.max(getPageNumber() - 1, 1), getTagName()));
     }
 
     private int getPageNumber() {
-        if (superProps == null) {
-            return 1;
-        }
         return ((Props) superProps).pageNumber;
+    }
+
+    private String getTagName() {
+        return ((Props) superProps).tag;
     }
 
     private int getOffset() {
@@ -59,7 +61,7 @@ public class QueuePage extends SuperPage {
 
     @Override
     public void init() {
-        postsService.getPosts(getOffset(), false).enqueue(new Callback<List<Post>>() {
+        tagService.getPosts(getTagName(), getOffset()).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (!response.isSuccessful()) {

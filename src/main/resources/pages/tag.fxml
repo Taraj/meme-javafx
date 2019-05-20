@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.controllers.pages.TagPage"
+            prefHeight="810.0" prefWidth="1357.0">
+    <children>
+        <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="873.0" layoutY="273.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <AnchorPane>
+                    <children>
+                        <VBox fx:id="mainContainer" alignment="CENTER" fillWidth="false" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <HBox layoutX="448.0" layoutY="672.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#openPreviousPage" prefWidth="743.0" text="Poprzednia Strona">
+                                    <font>
+                                        <Font size="23.0" />
+                                    </font>
+                                </Button>
+                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#openNextPage" prefWidth="743.0" text="Następna Strona">
+                                    <font>
+                                        <Font size="23.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

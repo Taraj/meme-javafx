@@ -18,7 +18,6 @@ import sample.util.Page;
 import sample.util.SuperPage;
 
 import java.io.IOException;
-import java.util.List;
 
 @Page(name = "Losowe", resource = "/pages/random.fxml")
 public class RandomPage extends SuperPage {
@@ -45,7 +44,7 @@ public class RandomPage extends SuperPage {
                 if (response.body() != null) {
 
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/post.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
                         Pane pane = loader.load();
                         PostController controller = loader.getController();
                         controller.load(response.body());

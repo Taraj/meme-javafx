@@ -16,6 +16,7 @@ import sample.controllers.pages.*;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
+import sample.util.SuperProps;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,13 +74,13 @@ public class Controller implements Initializable {
     }
 
 
-    private void loadNewPage(Class<? extends SuperPage> clazz, Object data) {
+    private void loadNewPage(Class<? extends SuperPage> clazz, SuperProps superProps) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(clazz.getAnnotation(Page.class).resource()));
             Pane pane = loader.load();
             SuperPage controller = loader.getController();
             controller.setRouter(this::loadNewPage);
-            controller.setData(data);
+            controller.setSuperProps(superProps);
             controller.init();
             Platform.runLater(()-> mainContainer.getChildren().setAll(pane));
         } catch (IOException e) {

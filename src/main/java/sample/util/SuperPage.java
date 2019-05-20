@@ -1,22 +1,18 @@
 package sample.util;
 
 
+import lombok.Setter;
+
 import java.util.function.BiConsumer;
 
 
 public abstract class SuperPage {
 
-    protected BiConsumer<Class<? extends SuperPage>, Object> router;
+    @Setter
+    protected BiConsumer<Class<? extends SuperPage>, SuperProps> router;
 
-    protected Object data;
-
-    public void setRouter(BiConsumer<Class<? extends SuperPage>, Object> router) {
-        this.router = router;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
+    @Setter
+    protected SuperProps superProps;
 
     public void init(){}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefWidth="720.0" style="-fx-background-color:#46a888" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.components.CommentController">
+   <children>
+      <ImageView fx:id="avatar" fitHeight="150.0" fitWidth="150.0" layoutX="-13.0" layoutY="-8.0" onMouseClicked="#openUser" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
+      <Separator layoutX="10.0" layoutY="32.0" prefHeight="2.0" prefWidth="450.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0" />
+      <Label fx:id="author" layoutX="150.0" layoutY="14.0" onMouseClicked="#openUser" text="Author" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <Label fx:id="date" layoutX="238.0" layoutY="12.0" text="20.20.20001" />
+      <Label fx:id="content" alignment="TOP_LEFT" layoutX="160.0" layoutY="35.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+   </children>
+</AnchorPane>
