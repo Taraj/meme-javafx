@@ -7,59 +7,46 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sample.State;
 import sample.dto.out.AddPost;
-import sample.services.PostsService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Page(name = "Dodaj", resource = "/pages/add.fxml")
 public class AddPage extends SuperPage {
 
+    @FXML
+    private TextField url;
 
     @FXML
-    private TextField urlField;
+    private TextField title;
 
     @FXML
-    private TextField titleField;
+    private TextField tag1;
 
     @FXML
-    private TextField tag1Field;
+    private TextField tag2;
 
     @FXML
-    private TextField tag2Field;
-
-    @FXML
-    private TextField tag3Field;
-
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
+    private TextField tag3;
 
     @FXML
     private void add() {
-        List<String> tags = new ArrayList<>();
-
-        tags.add(tag1Field.getText());
-        tags.add(tag2Field.getText());
-        tags.add(tag3Field.getText());
-
-        tags.removeIf(""::equals);
-        AddPost newPost = AddPost.builder()
-                .title(titleField.getText())
-                .url(urlField.getText())
-                .tags(tags)
-                .build();
-        postsService.addPost(newPost, State.getToken()).enqueue(new Callback<Void>() {
+        postsService.addPost(new AddPost(
+                title.getText(),
+                url.getText(),
+                getTagList()
+        ), State.getToken()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
                     AlertsFactory.responseStatusError(response.errorBody());
                     return;
                 }
-                AlertsFactory.success("Dodano");
+                AlertsFactory.success("Dodano.");
             }
 
             @Override
@@ -67,6 +54,11 @@ public class AddPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
 
+    private List<String> getTagList() {
+        return Stream.of(tag1.getText(), tag2.getText(), tag3.getText())
+                .filter(s -> !"".equals(s))
+                .collect(Collectors.toList());
     }
 }

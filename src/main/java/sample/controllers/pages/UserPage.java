@@ -26,16 +26,17 @@ import sample.util.SuperProps;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Page(resource = "/pages/user.fxml")
 public class UserPage extends SuperPage {
+
     @AllArgsConstructor
     public static class Props implements SuperProps {
         private int pageNumber;
         private String nickname;
     }
-
-    private UserService userService = RetrofitInstance.getInstance().create(UserService.class);
 
     @FXML
     private VBox mainContainer;
@@ -58,6 +59,8 @@ public class UserPage extends SuperPage {
     @FXML
     Label nickname;
 
+    private User user;
+
     @FXML
     private void openNextPage() {
         router.accept(UserPage.class, new Props(getPageNumber() + 1, getNickname()));
@@ -69,18 +72,16 @@ public class UserPage extends SuperPage {
     }
 
     private int getPageNumber() {
-        return ((Props) superProps).pageNumber;
+        return ((Props) props).pageNumber;
     }
 
     private String getNickname() {
-        return ((Props) superProps).nickname;
+        return ((Props) props).nickname;
     }
 
     private int getOffset() {
         return (getPageNumber() - 1) * 10;
     }
-
-    private User user;
 
 
     private void setUserInfo() {
@@ -109,7 +110,7 @@ public class UserPage extends SuperPage {
         nickname.setText(user.getNickname());
         postCount.setText(Integer.toString(user.getPostsCount()));
         commentCount.setText(Integer.toString(user.getCommentsCount()));
-        String feedbackString = "+"+ user.getLikes() + "/-" + user.getDislikes();
+        String feedbackString = "+" + user.getLikes() + "/-" + user.getDislikes();
         feedback.setText(feedbackString);
         registerDate.setText(user.getJoinedAt().toString());
     }
@@ -125,19 +126,13 @@ public class UserPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    response.body().forEach(post -> {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
-                            Pane pane = loader.load();
-                            PostController controller = loader.getController();
-                            controller.load(post);
-                            controller.setRouter(router);
-                            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-                            Platform.runLater(() -> mainContainer.getChildren().add(pane));
-                        } catch (IOException e) {
-                            AlertsFactory.unknownError(e.getMessage());
-                        }
-                    });
+                    List<Pane> panes = response.body()
+                            .parallelStream()
+                            .map(UserPage.this::createPane)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+
+                    Platform.runLater(() -> mainContainer.getChildren().setAll(panes));
                 }
             }
 
@@ -153,5 +148,20 @@ public class UserPage extends SuperPage {
     public void init() {
         setUserPosts();
         setUserInfo();
+    }
+
+    private Pane createPane(Post post) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
     }
 }

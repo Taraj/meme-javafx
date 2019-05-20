@@ -1,11 +1,12 @@
 package sample.dto.out;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
+@AllArgsConstructor
 public class ConfirmResetPassword {
     private String usernameOrEmail;
-    private int code;
+    private String code;
 }

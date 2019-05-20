@@ -8,21 +8,19 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import sample.controllers.components.PostController;
 import sample.dto.in.Post;
-import sample.services.PostsService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
 import sample.util.SuperProps;
-
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Page(name = "Głowna", resource = "/pages/main.fxml")
@@ -32,9 +30,6 @@ public class MainPage extends SuperPage {
     public static class Props implements SuperProps {
         private int pageNumber;
     }
-
-
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
 
     @FXML
     private VBox mainContainer;
@@ -50,11 +45,10 @@ public class MainPage extends SuperPage {
     }
 
     private int getPageNumber() {
-        if (superProps == null) {
+        if (props == null) {
             return 1;
         }
-        return ((Props) superProps).pageNumber;
-
+        return ((Props) props).pageNumber;
     }
 
     private int getOffset() {
@@ -72,19 +66,13 @@ public class MainPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    response.body().forEach(post -> {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
-                            Pane pane = loader.load();
-                            PostController controller = loader.getController();
-                            controller.load(post);
-                            controller.setRouter(router);
-                            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-                            Platform.runLater(() -> mainContainer.getChildren().add(pane));
-                        } catch (IOException e) {
-                            AlertsFactory.unknownError(e.getMessage());
-                        }
-                    });
+                    List<Pane> panes = response.body()
+                            .stream()
+                            .map(MainPage.this::createPane)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+
+                    Platform.runLater(() -> mainContainer.getChildren().setAll(panes));
                 }
             }
 
@@ -93,5 +81,20 @@ public class MainPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+
+    private Pane createPane(Post post){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
     }
 }

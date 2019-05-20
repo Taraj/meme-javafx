@@ -80,7 +80,7 @@ public class Controller implements Initializable {
             Pane pane = loader.load();
             SuperPage controller = loader.getController();
             controller.setRouter(this::loadNewPage);
-            controller.setSuperProps(superProps);
+            controller.setProps(superProps);
             controller.init();
             Platform.runLater(()-> mainContainer.getChildren().setAll(pane));
         } catch (IOException e) {

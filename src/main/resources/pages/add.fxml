@@ -12,7 +12,7 @@
             <font>
                 <Font name="System Bold" size="41.0" />
             </font></Label>
-        <TextField fx:id="urlField" layoutX="728.0" layoutY="400.0" prefHeight="25.0" prefWidth="301.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
+        <TextField fx:id="url" layoutX="728.0" layoutY="400.0" prefHeight="25.0" prefWidth="301.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
         <Button layoutX="500.0" layoutY="516.0" mnemonicParsing="false" onAction="#add" text="Dodaj" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="700.0" />
         <Label layoutX="502.0" layoutY="289.0" text="Tytul" AnchorPane.leftAnchor="500.0">
             <font>
@@ -24,14 +24,14 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <TextField fx:id="titleField" layoutX="500.0" layoutY="323.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
+        <TextField fx:id="title" layoutX="500.0" layoutY="323.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" />
       <Label layoutX="500.0" layoutY="445.0" text="Tagi">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="tag1Field" layoutX="500.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="785.0" />
-      <TextField fx:id="tag2Field" layoutX="643.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="642.0" />
-      <TextField fx:id="tag3Field" layoutX="785.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" />
+      <TextField fx:id="tag1" layoutX="500.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="785.0" />
+      <TextField fx:id="tag2" layoutX="643.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.leftAnchor="643.0" AnchorPane.rightAnchor="642.0" />
+      <TextField fx:id="tag3" layoutX="785.0" layoutY="470.0" prefHeight="25.0" prefWidth="115.0" />
     </children>
 </AnchorPane>

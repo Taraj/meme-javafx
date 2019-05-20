@@ -9,8 +9,6 @@ import retrofit2.Response;
 import sample.State;
 import sample.dto.in.AuthResponse;
 import sample.dto.out.Login;
-import sample.services.AuthService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
@@ -18,8 +16,6 @@ import sample.util.SuperPage;
 
 @Page(name = "Zaloguj", resource = "/pages/login.fxml")
 public class LoginPage extends SuperPage {
-
-    private AuthService authService = RetrofitInstance.getInstance().create(AuthService.class);
 
     @FXML
     private PasswordField passwordField;
@@ -29,12 +25,10 @@ public class LoginPage extends SuperPage {
 
     @FXML
     private void login() {
-        Login loginDto = Login.builder()
-                .username(loginField.getText())
-                .password(passwordField.getText())
-                .build();
-
-        authService.login(loginDto).enqueue(new Callback<AuthResponse>() {
+        authService.login(new Login(
+                loginField.getText(),
+                passwordField.getText()
+        )).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (!response.isSuccessful()) {
@@ -43,7 +37,7 @@ public class LoginPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    State.setToken(response.body().getAccessToken());
+                    State.setCredential(response.body());
                     router.accept(AccountPage.class,null);
                 }
             }
@@ -54,6 +48,7 @@ public class LoginPage extends SuperPage {
             }
         });
     }
+
     @FXML
     private void register(){
         router.accept(RegisterPage.class,null);

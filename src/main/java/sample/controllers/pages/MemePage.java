@@ -4,12 +4,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import sample.State;
 import sample.controllers.components.CommentController;
 import sample.controllers.components.PostController;
 import sample.dto.in.Comment;
@@ -23,7 +25,7 @@ import sample.util.SuperPage;
 
 import java.io.IOException;
 import java.util.List;
-
+//TODO
 @Page(resource = "/pages/meme.fxml")
 public class MemePage extends SuperPage {
     private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
@@ -34,21 +36,17 @@ public class MemePage extends SuperPage {
     }
 
 
-
-
-
-
-
-
     @FXML
     private VBox memeContainer;
 
+    @FXML
+    private Label commentTitle;
 
     @FXML
     private VBox commentContainer;
 
     private int getMemeId() {
-        return ((Props) superProps).memeId;
+        return ((Props) props).memeId;
     }
 
 
@@ -63,7 +61,13 @@ public class MemePage extends SuperPage {
 
                 if (response.body() != null) {
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+                        String path;
+                        if (State.isAdmin()) {
+                            path = "/components/postItemAdmin.fxml";
+                        } else {
+                            path = "/components/postItem.fxml";
+                        }
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
                         Pane pane = loader.load();
                         PostController controller = loader.getController();
                         controller.load(response.body());
@@ -106,6 +110,7 @@ public class MemePage extends SuperPage {
                             AlertsFactory.unknownError(e.getMessage());
                         }
                     });
+                    Platform.runLater(() -> commentTitle.setVisible(true));
                 }
 
             }

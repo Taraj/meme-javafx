@@ -11,8 +11,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sample.controllers.components.PostController;
 import sample.dto.in.Post;
-import sample.services.PostsService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
@@ -21,7 +19,6 @@ import java.io.IOException;
 
 @Page(name = "Losowe", resource = "/pages/random.fxml")
 public class RandomPage extends SuperPage {
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
 
     @FXML
     private VBox mainContainer;
@@ -31,8 +28,7 @@ public class RandomPage extends SuperPage {
         randomPost();
     }
 
-
-    private void randomPost(){
+    private void randomPost() {
         postsService.getRandomPost().enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -42,19 +38,8 @@ public class RandomPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
-                        Pane pane = loader.load();
-                        PostController controller = loader.getController();
-                        controller.load(response.body());
-                        controller.setRouter(router);
-                        VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-                        Platform.runLater(() -> mainContainer.getChildren().setAll(pane));
-                    } catch (IOException e) {
-                        AlertsFactory.unknownError(e.getMessage());
-                    }
-
+                    Pane pane = createPane(response.body());
+                    Platform.runLater(() -> mainContainer.getChildren().setAll(pane));
                 }
             }
 
@@ -68,6 +53,21 @@ public class RandomPage extends SuperPage {
 
     @Override
     public void init() {
-       randomPost();
+        randomPost();
+    }
+
+    private Pane createPane(Post post) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
     }
 }

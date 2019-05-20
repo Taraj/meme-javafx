@@ -15,6 +15,7 @@ import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import sample.State;
 import sample.controllers.pages.MainPage;
 import sample.controllers.pages.MemePage;
 import sample.controllers.pages.TagPage;
@@ -75,6 +76,44 @@ public class PostController {
     @Setter
     private BiConsumer<Class<? extends SuperPage>, SuperProps> router;
 
+    @FXML
+    private void add(){
+    postsService.confirmPost(post.getId(),State.getToken()).enqueue(new Callback<Void>() {
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+            if (!response.isSuccessful()) {
+                AlertsFactory.responseStatusError(response.errorBody());
+                return;
+            }
+            router.accept(MainPage.class, null);
+        }
+
+        @Override
+        public void onFailure(Call<Void> call, Throwable throwable) {
+            AlertsFactory.apiCallError(throwable);
+        }
+    });
+    }
+
+    @FXML
+    private void delete(){
+
+        postsService.deletePost(post.getId(), State.getToken()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    AlertsFactory.responseStatusError(response.errorBody());
+                    return;
+                }
+                router.accept(MainPage.class, null);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                AlertsFactory.apiCallError(throwable);
+            }
+        });
+    }
 
     private void addFeedback(boolean isLike) {
         AddFeedback addFeedbackDto = AddFeedback.builder()

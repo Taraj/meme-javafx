@@ -16,7 +16,7 @@
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="806.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                               <VBox fx:id="memeContainer" alignment="CENTER" fillWidth="false" prefHeight="62.0" prefWidth="1355.0" />
-                        <Label prefHeight="37.0" prefWidth="720.0" style="-fx-background-color: #3b9a83;" text="Komentarze">
+                        <Label fx:id="commentTitle" prefHeight="37.0" prefWidth="720.0" style="-fx-background-color: #3b9a83;" text="Komentarze" visible="false">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

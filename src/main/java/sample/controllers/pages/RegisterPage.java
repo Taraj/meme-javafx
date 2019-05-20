@@ -26,6 +26,7 @@ public class RegisterPage extends SuperPage {
 
     @FXML
     private TextField emailField;
+
     @FXML
     private PasswordField passwordField;
 
@@ -34,26 +35,22 @@ public class RegisterPage extends SuperPage {
 
     @FXML
     private void login() {
-        router.accept(LoginPage.class,null);
+        router.accept(LoginPage.class, null);
     }
 
-    private AuthService authService = RetrofitInstance.getInstance().create(AuthService.class);
 
     @FXML
     private void register() {
-        if (!passwordField.getText().equals(rePasswordField.getText())){
+        if (!passwordField.getText().equals(rePasswordField.getText())) {
             AlertsFactory.inputError("Hasła są różne");
             return;
         }
-
-        Register registerDto = Register.builder()
-                .password(passwordField.getText())
-                .username(loginField.getText())
-                .nickname(nicknameField.getText())
-                .email(emailField.getText())
-                .build();
-
-        authService.register(registerDto).enqueue(new Callback<AuthResponse>() {
+        authService.register(new Register(
+                nicknameField.getText(),
+                loginField.getText(),
+                emailField.getText(),
+                passwordField.getText()
+        )).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (!response.isSuccessful()) {
@@ -62,8 +59,8 @@ public class RegisterPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    State.setToken(response.body().getAccessToken());
-                    router.accept(AccountPage.class,null);
+                    State.setCredential(response.body());
+                    router.accept(AccountPage.class, null);
                 }
             }
 

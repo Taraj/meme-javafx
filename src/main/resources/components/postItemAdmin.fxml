@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color:#4285f4" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.components.PostController">
+   <children>
+      <Label fx:id="title" layoutX="68.0" layoutY="30.0" onMouseClicked="#openMeme" text="Title" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <HBox layoutY="46.0" prefWidth="680.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="66.0">
+         <children>
+            <Label fx:id="author" onMouseClicked="#openUser" text="Author" textFill="#ff1100">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="date" text="10.10.2019" textFill="#575454">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <HBox fx:id="tagContainer" spacing="10.0">
+               <children>
+                  <Label text="#tag1" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label layoutX="10.0" layoutY="10.0" text="#tag2" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label layoutX="41.0" layoutY="10.0" text="#tag2" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </HBox>
+         </children>
+      </HBox>
+      <ImageView fx:id="image" fitHeight="100.0" fitWidth="723.0" layoutX="10.0" layoutY="66.0" onMouseClicked="#openMeme" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="96.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
+      <HBox layoutX="96.0" layoutY="151.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button fx:id="likeButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#like" text="+0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="dislikeButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#dislike" text="-0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <Separator layoutX="-56.0" layoutY="47.0" prefHeight="0.0" prefWidth="743.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0" />
+      <HBox layoutX="20.0" layoutY="221.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button fx:id="addButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#add" text="Dodaj" HBox.hgrow="ALWAYS" />
+            <Button fx:id="deleteButton" maxWidth="Infinity" mnemonicParsing="false" onAction="#delete" text="Usuń" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

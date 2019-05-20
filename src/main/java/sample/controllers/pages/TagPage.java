@@ -12,8 +12,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sample.controllers.components.PostController;
 import sample.dto.in.Post;
-import sample.services.RetrofitInstance;
-import sample.services.TagService;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperProps;
@@ -21,6 +19,8 @@ import sample.util.SuperPage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Page(resource = "/pages/tag.fxml")
 public class TagPage extends SuperPage {
@@ -31,8 +31,6 @@ public class TagPage extends SuperPage {
         private String tag;
     }
 
-
-    private TagService tagService = RetrofitInstance.getInstance().create(TagService.class);
 
     @FXML
     private VBox mainContainer;
@@ -48,11 +46,11 @@ public class TagPage extends SuperPage {
     }
 
     private int getPageNumber() {
-        return ((Props) superProps).pageNumber;
+        return ((Props) props).pageNumber;
     }
 
     private String getTagName() {
-        return ((Props) superProps).tag;
+        return ((Props) props).tag;
     }
 
     private int getOffset() {
@@ -70,19 +68,13 @@ public class TagPage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    response.body().forEach(post -> {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
-                            Pane pane = loader.load();
-                            PostController controller = loader.getController();
-                            controller.load(post);
-                            controller.setRouter(router);
-                            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-                            Platform.runLater(() -> mainContainer.getChildren().add(pane));
-                        } catch (IOException e) {
-                            AlertsFactory.unknownError(e.getMessage());
-                        }
-                    });
+                    List<Pane> panes = response.body()
+                            .stream()
+                            .map(TagPage.this::createPane)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+
+                    Platform.runLater(() -> mainContainer.getChildren().setAll(panes));
                 }
             }
 
@@ -91,5 +83,21 @@ public class TagPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+
+
+    private Pane createPane(Post post) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
     }
 }

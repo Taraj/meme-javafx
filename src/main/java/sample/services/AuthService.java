@@ -15,8 +15,8 @@ public interface AuthService {
     Call<AuthResponse> register(@Body Register register);
 
     @POST("auth/reset")
-    Call<Void> sendResetPassworEmail(@Body ResetPassword resetPassword);
+    Call<Void> sendResetPasswordEmail(@Body ResetPassword resetPassword);
 
     @POST("auth/reset/confirm")
-    Call<Void> confirmResetPassworEmail(@Body ConfirmResetPassword confirmResetPassword);
+    Call<Void> confirmResetPasswordEmail(@Body ConfirmResetPassword confirmResetPassword);
 }
