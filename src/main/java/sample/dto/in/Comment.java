@@ -11,4 +11,6 @@ public class Comment {
     private Post post;
     private User author;
     private LocalDateTime createdAt;
+    private int likes = 55;
+    private int dislikes = 99;
 }

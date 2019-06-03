@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,18 +22,13 @@ import sample.controllers.pages.UserPage;
 import sample.dto.in.Post;
 import sample.dto.in.Tag;
 import sample.dto.out.AddFeedback;
-import sample.services.PostsService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
-import sample.util.SuperProps;
-import sample.util.SuperPage;
-
+import sample.util.SuperComponent;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 
-public class PostController {
+public class PostController extends SuperComponent {
 
 
     @FXML
@@ -58,8 +52,6 @@ public class PostController {
 
     private Post post;
 
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
-
     @FXML
     private void like() {
         addFeedback(true);
@@ -73,8 +65,6 @@ public class PostController {
     @FXML
     private HBox tagContainer;
 
-    @Setter
-    private BiConsumer<Class<? extends SuperPage>, SuperProps> router;
 
     @FXML
     private void add(){
@@ -116,10 +106,9 @@ public class PostController {
     }
 
     private void addFeedback(boolean isLike) {
-        AddFeedback addFeedbackDto = AddFeedback.builder()
-                .like(isLike)
-                .build();
-        postsService.addFeedback(post.getId(), addFeedbackDto).enqueue(new Callback<Void>() {
+        postsService.addFeedback(post.getId(), new AddFeedback(
+                isLike
+        )).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {

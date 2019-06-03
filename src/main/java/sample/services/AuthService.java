@@ -19,4 +19,5 @@ public interface AuthService {
 
     @POST("auth/reset/confirm")
     Call<Void> confirmResetPasswordEmail(@Body ConfirmResetPassword confirmResetPassword);
+
 }

@@ -1,31 +1,51 @@
 package sample.util;
 
 
-import lombok.Setter;
-import sample.services.*;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import sample.State;
+import sample.controllers.components.CommentController;
+import sample.controllers.components.PostController;
+import sample.dto.in.Comment;
+import sample.dto.in.Post;
+import java.io.IOException;
 
-import java.util.function.BiConsumer;
+
+public abstract class SuperPage extends SuperComponent{
+
+    public Pane createPostItem(Post post){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
+    }
 
 
-public abstract class SuperPage {
 
-    @Setter
-    protected BiConsumer<Class<? extends SuperPage>, SuperProps> router;
 
-    @Setter
-    protected SuperProps props;
+    public Pane createCommentItem(Comment comment){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/commentItem.fxml"));
+            Pane pane = loader.load();
+            CommentController controller = loader.getController();
+            controller.load(comment);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(5, 0, 0, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
+    }
 
-    protected AuthService authService = RetrofitInstance.getInstance().create(AuthService.class);
-
-    protected CommentService commentService = RetrofitInstance.getInstance().create(CommentService.class);
-
-    protected PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
-
-    protected SelfService selfService = RetrofitInstance.getInstance().create(SelfService.class);
-
-    protected TagService tagService = RetrofitInstance.getInstance().create(TagService.class);
-
-    protected UserService userService = RetrofitInstance.getInstance().create(UserService.class);
-
-    public void init(){}
 }

@@ -9,9 +9,6 @@ import sample.dto.out.SetAvatar;
 
 public interface SelfService {
 
-    @GET("self")
-    Call<User> getSelfInfo(@Header("Authorization") String token);
-
     @POST("self/active")
     Call<Void> activeAccount(@Body ActiveAccount activeAccount, @Header("Authorization") String token);
 

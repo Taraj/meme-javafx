@@ -1,6 +1,5 @@
 package sample.util;
 
-import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import okhttp3.ResponseBody;
@@ -21,7 +20,7 @@ public class AlertsFactory {
         });
     }
 
-    public static void responseStatusError(@Nullable ResponseBody body) {
+    public static void responseStatusError(ResponseBody body) {
         String message = null;
         if (body != null) {
             try {

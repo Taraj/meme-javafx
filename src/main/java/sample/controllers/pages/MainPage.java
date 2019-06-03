@@ -3,6 +3,7 @@ package sample.controllers.pages;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 
+
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
@@ -17,6 +18,7 @@ import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
 import sample.util.SuperProps;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -68,7 +70,7 @@ public class MainPage extends SuperPage {
                 if (response.body() != null) {
                     List<Pane> panes = response.body()
                             .stream()
-                            .map(MainPage.this::createPane)
+                            .map(MainPage.this::createPostItem)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toList());
 
@@ -83,18 +85,4 @@ public class MainPage extends SuperPage {
         });
     }
 
-    private Pane createPane(Post post){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
-            Pane pane = loader.load();
-            PostController controller = loader.getController();
-            controller.load(post);
-            controller.setRouter(router);
-            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-            return pane;
-        } catch (IOException e) {
-            AlertsFactory.unknownError(e.getMessage());
-            return null;
-        }
-    }
 }

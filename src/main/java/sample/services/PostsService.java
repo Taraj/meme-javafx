@@ -3,7 +3,6 @@ package sample.services;
 import retrofit2.Call;
 import retrofit2.http.*;
 import sample.dto.in.Comment;
-import sample.dto.in.PostFeedback;
 import sample.dto.in.Post;
 import sample.dto.out.AddComment;
 import sample.dto.out.AddFeedback;
@@ -25,7 +24,6 @@ public interface PostsService {
     @GET("posts/random")
     Call<Post> getRandomPost();
 
-    //TODO
     @POST("posts/")
     Call<Void> addPost(@Body AddPost post, @Header("Authorization") String token);
 
@@ -36,12 +34,9 @@ public interface PostsService {
     Call<Void> confirmPost(@Path("id") long id, @Header("Authorization") String token);
 
     @POST("posts/{id}/comments")
-    Call<List<Comment>> addComment(@Path("id") long id, @Body AddComment comment, @Header("Authorization") String token);
+    Call<Void> addComment(@Path("id") long id, @Body AddComment comment, @Header("Authorization") String token);
 
     @POST("posts/{id}/feedback")
     Call<Void> addFeedback(@Path("id") long id, @Body AddFeedback feedback);
-
-    @GET("posts/{id}/feedback")
-    Call<PostFeedback> getFeedback(@Path("id") long id, @Header("Authorization") String token);
 
 }

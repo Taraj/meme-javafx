@@ -2,9 +2,9 @@ package sample.controllers.pages;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
@@ -12,23 +12,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import sample.State;
-import sample.controllers.components.CommentController;
-import sample.controllers.components.PostController;
 import sample.dto.in.Comment;
 import sample.dto.in.Post;
+import sample.dto.out.AddComment;
 import sample.services.PostsService;
 import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperProps;
 import sample.util.SuperPage;
-
-import java.io.IOException;
 import java.util.List;
-//TODO
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+
 @Page(resource = "/pages/meme.fxml")
 public class MemePage extends SuperPage {
-    private PostsService postsService = RetrofitInstance.getInstance().create(PostsService.class);
 
     @AllArgsConstructor
     public static class Props implements SuperProps {
@@ -45,6 +44,37 @@ public class MemePage extends SuperPage {
     @FXML
     private VBox commentContainer;
 
+
+    @FXML
+    private VBox addCommentCointainer;
+
+    @FXML
+    private TextArea comment;
+
+    @FXML
+    private void addComment(){
+
+        postsService.addComment(getMemeId(),new AddComment(
+                comment.getText()
+        ), State.getToken()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    AlertsFactory.responseStatusError(response.errorBody());
+                    return;
+                }
+                loadComments();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                AlertsFactory.apiCallError(throwable);
+            }
+        });
+    }
+
+
+
     private int getMemeId() {
         return ((Props) props).memeId;
     }
@@ -60,24 +90,8 @@ public class MemePage extends SuperPage {
                 }
 
                 if (response.body() != null) {
-                    try {
-                        String path;
-                        if (State.isAdmin()) {
-                            path = "/components/postItemAdmin.fxml";
-                        } else {
-                            path = "/components/postItem.fxml";
-                        }
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-                        Pane pane = loader.load();
-                        PostController controller = loader.getController();
-                        controller.load(response.body());
-                        controller.setRouter(router);
-                        VBox.setMargin(pane, new Insets(50, 0, 50, 0));
-                        Platform.runLater(() -> memeContainer.getChildren().setAll(pane));
-                    } catch (IOException e) {
-                        AlertsFactory.unknownError(e.getMessage());
-                    }
-
+                    Pane item = createPostItem(response.body());
+                    Platform.runLater(() -> memeContainer.getChildren().setAll(item));
                 }
             }
 
@@ -97,22 +111,17 @@ public class MemePage extends SuperPage {
                     return;
                 }
                 if (response.body() != null) {
-                    response.body().forEach(comment -> {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/commentItem.fxml"));
-                            Pane pane = loader.load();
-                            CommentController controller = loader.getController();
-                            controller.load(comment);
-                            controller.setRouter(router);
-                            VBox.setMargin(pane, new Insets(5, 0, 0, 0));
-                            Platform.runLater(() -> commentContainer.getChildren().add(pane));
-                        } catch (IOException e) {
-                            AlertsFactory.unknownError(e.getMessage());
-                        }
-                    });
-                    Platform.runLater(() -> commentTitle.setVisible(true));
-                }
+                    List<Pane> panes = response.body()
+                            .stream()
+                            .map(MemePage.this::createCommentItem)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
 
+                    Platform.runLater(() -> {
+                        commentContainer.getChildren().setAll(panes);
+                        commentTitle.setVisible(true);
+                    });
+                }
             }
 
             @Override
@@ -124,6 +133,9 @@ public class MemePage extends SuperPage {
 
     @Override
     public void init() {
+        if(State.isActiveAccount()){
+            addCommentCointainer.setDisable(false);
+        }
         loadMeme();
         loadComments();
     }

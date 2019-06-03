@@ -1,10 +1,10 @@
 package sample.dto.out;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@Builder
+@AllArgsConstructor
 public class AddComment {
     private String content;
 }

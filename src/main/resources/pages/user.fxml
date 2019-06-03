@@ -100,6 +100,19 @@
                                     </Label>
                                  </children>
                               </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <HBox fx:id="feedbackAction" disable="true" prefHeight="100.0" prefWidth="2000.0" spacing="20.0">
+                                       <children>
+                                          <Button maxWidth="2000.0" mnemonicParsing="false" onAction="#dislike" text="-1" HBox.hgrow="ALWAYS" />
+                                          <Button maxWidth="20000.0" mnemonicParsing="false" onAction="#like" text="+1" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                       <padding>
+                                          <Insets top="20.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets left="10.0" />
