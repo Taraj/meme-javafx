@@ -111,7 +111,7 @@ public class CommentController extends SuperComponent {
     @FXML
     private void addDislike() {
         commentService.addFeedback(comment.getId(), new AddFeedback(
-                true
+                false
         ), State.getToken()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

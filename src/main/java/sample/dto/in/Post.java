@@ -13,8 +13,8 @@ public class Post {
     private String url;
     private List<Tag> tags;
     private User author;
-    private int commentsCount;
-    private int likes;
-    private int dislikes;
+    private long commentsCount;
+    private long likes;
+    private long dislikes;
     private LocalDateTime createdAt;
 }

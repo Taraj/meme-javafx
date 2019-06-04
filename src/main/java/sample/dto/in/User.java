@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 
 @Data
 public class User {
+    private long id;
     private String nickname;
     private String avatar;
-    private boolean isBaned;
-    private LocalDateTime joinedAt;
-    private int commentsCount;
-    private int postsCount;
-    private int likes;
-    private int dislikes;
+    private LocalDateTime createdAt;
+    private long commentsCount;
+    private long postsCount;
+    private long likes;
+    private long dislikes;
 }

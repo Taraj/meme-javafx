@@ -150,11 +150,11 @@ public class UserPage extends SuperPage {
     private void setData() {
         avatar.setImage(new Image(user.getAvatar()));
         nickname.setText(user.getNickname());
-        postCount.setText(Integer.toString(user.getPostsCount()));
-        commentCount.setText(Integer.toString(user.getCommentsCount()));
+        postCount.setText(Long.toString(user.getPostsCount()));
+        commentCount.setText(Long.toString(user.getCommentsCount()));
         String feedbackString = "+" + user.getLikes() + "/-" + user.getDislikes();
         feedback.setText(feedbackString);
-        registerDate.setText(user.getJoinedAt().toString());
+        registerDate.setText(user.getCreatedAt().toString());
     }
 
 

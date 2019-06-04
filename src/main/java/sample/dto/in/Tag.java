@@ -6,5 +6,5 @@ import lombok.Data;
 public class Tag {
     private long id;
     private String name;
-    private int postsCount;
+    private long postsCount;
 }
