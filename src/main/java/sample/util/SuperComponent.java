@@ -25,6 +25,7 @@ abstract public class SuperComponent {
 
     protected UserService userService = RetrofitInstance.getInstance().create(UserService.class);
 
-    public void init(){}
+    public void init() {
+    }
 
 }

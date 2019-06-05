@@ -82,7 +82,7 @@ public class Controller implements Initializable {
             controller.setRouter(this::loadNewPage);
             controller.setProps(superProps);
             controller.init();
-            Platform.runLater(()-> mainContainer.getChildren().setAll(pane));
+            Platform.runLater(() -> mainContainer.getChildren().setAll(pane));
         } catch (IOException e) {
             AlertsFactory.unknownError(e.getMessage());
         }

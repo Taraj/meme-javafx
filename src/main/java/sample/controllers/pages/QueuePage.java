@@ -13,18 +13,13 @@ import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
 import sample.util.SuperProps;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Page(name = "Poczekalnia", resource = "/pages/queue.fxml")
 public class QueuePage extends SuperPage {
-
-    @AllArgsConstructor
-    public static class Props implements SuperProps {
-        private int pageNumber;
-    }
-
 
     @FXML
     private VBox mainContainer;
@@ -76,6 +71,11 @@ public class QueuePage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+
+    @AllArgsConstructor
+    public static class Props implements SuperProps {
+        private int pageNumber;
     }
 
 }

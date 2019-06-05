@@ -4,7 +4,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import sample.dto.in.AuthResponse;
-import sample.dto.out.*;
+import sample.dto.out.ConfirmResetPassword;
+import sample.dto.out.Login;
+import sample.dto.out.Register;
+import sample.dto.out.ResetPassword;
 
 public interface AuthService {
 

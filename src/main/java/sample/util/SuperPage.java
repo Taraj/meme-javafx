@@ -5,17 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import sample.State;
 import sample.controllers.components.CommentController;
 import sample.controllers.components.PostController;
 import sample.dto.in.Comment;
 import sample.dto.in.Post;
+
 import java.io.IOException;
 
 
-public abstract class SuperPage extends SuperComponent{
+public abstract class SuperPage extends SuperComponent {
 
-    public Pane createPostItem(Post post){
+    public Pane createPostItem(Post post) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/postItem.fxml"));
             Pane pane = loader.load();
@@ -31,9 +31,7 @@ public abstract class SuperPage extends SuperComponent{
     }
 
 
-
-
-    public Pane createCommentItem(Comment comment){
+    public Pane createCommentItem(Comment comment) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/commentItem.fxml"));
             Pane pane = loader.load();

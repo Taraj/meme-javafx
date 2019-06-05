@@ -2,9 +2,10 @@ package sample.controllers.pages;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
@@ -12,15 +13,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import sample.State;
+import sample.controllers.components.PostController;
 import sample.dto.in.Comment;
 import sample.dto.in.Post;
 import sample.dto.out.AddComment;
-import sample.services.PostsService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
-import sample.util.SuperProps;
 import sample.util.SuperPage;
+import sample.util.SuperProps;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,32 +31,21 @@ import java.util.stream.Collectors;
 @Page(resource = "/pages/meme.fxml")
 public class MemePage extends SuperPage {
 
-    @AllArgsConstructor
-    public static class Props implements SuperProps {
-        private int memeId;
-    }
-
-
     @FXML
     private VBox memeContainer;
-
     @FXML
     private Label commentTitle;
-
     @FXML
     private VBox commentContainer;
-
-
     @FXML
     private VBox addCommentCointainer;
-
     @FXML
     private TextArea comment;
 
     @FXML
-    private void addComment(){
+    private void addComment() {
 
-        postsService.addComment(getMemeId(),new AddComment(
+        postsService.addComment(getMemeId(), new AddComment(
                 comment.getText()
         ), State.getToken()).enqueue(new Callback<Void>() {
             @Override
@@ -73,12 +64,9 @@ public class MemePage extends SuperPage {
         });
     }
 
-
-
     private int getMemeId() {
         return ((Props) props).memeId;
     }
-
 
     private void loadMeme() {
         postsService.getPostById(getMemeId()).enqueue(new Callback<Post>() {
@@ -133,10 +121,37 @@ public class MemePage extends SuperPage {
 
     @Override
     public void init() {
-        if(State.isActiveAccount()){
+        if (State.isActiveAccount()) {
             addCommentCointainer.setDisable(false);
         }
         loadMeme();
         loadComments();
+    }
+
+    public Pane createPostItem(Post post) {
+        try {
+
+            String path = "/components/postItem.fxml";
+
+            if (State.isAdmin()) {
+                path = "/components/postItemAdmin.fxml";
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Pane pane = loader.load();
+            PostController controller = loader.getController();
+            controller.load(post);
+            controller.setRouter(router);
+            VBox.setMargin(pane, new Insets(50, 0, 50, 0));
+            return pane;
+        } catch (IOException e) {
+            AlertsFactory.unknownError(e.getMessage());
+            return null;
+        }
+    }
+
+    @AllArgsConstructor
+    public static class Props implements SuperProps {
+        private int memeId;
     }
 }

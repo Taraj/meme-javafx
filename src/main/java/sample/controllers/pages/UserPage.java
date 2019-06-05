@@ -21,7 +21,6 @@ import sample.util.Page;
 import sample.util.SuperPage;
 import sample.util.SuperProps;
 
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,36 +28,22 @@ import java.util.stream.Collectors;
 @Page(resource = "/pages/user.fxml")
 public class UserPage extends SuperPage {
 
-    @AllArgsConstructor
-    public static class Props implements SuperProps {
-        private int pageNumber;
-        private String nickname;
-    }
-
-    @FXML
-    private VBox mainContainer;
-
     @FXML
     ImageView avatar;
-
     @FXML
     Label feedback;
-
     @FXML
     Label postCount;
-
     @FXML
     Label commentCount;
-
     @FXML
     Label registerDate;
-
     @FXML
     Label nickname;
-
     @FXML
     HBox feedbackAction;
-
+    @FXML
+    private VBox mainContainer;
     private User user;
 
     @FXML
@@ -72,7 +57,7 @@ public class UserPage extends SuperPage {
     }
 
     @FXML
-    private void like(){
+    private void like() {
         userService.addFeedback(getNickname(), new AddFeedback(
                 true
         ), State.getToken()).enqueue(new Callback<Void>() {
@@ -91,8 +76,9 @@ public class UserPage extends SuperPage {
             }
         });
     }
+
     @FXML
-    private  void dislike(){
+    private void dislike() {
         userService.addFeedback(getNickname(), new AddFeedback(
                 false
         ), State.getToken()).enqueue(new Callback<Void>() {
@@ -112,7 +98,6 @@ public class UserPage extends SuperPage {
         });
     }
 
-
     private int getPageNumber() {
         return ((Props) props).pageNumber;
     }
@@ -124,7 +109,6 @@ public class UserPage extends SuperPage {
     private int getOffset() {
         return (getPageNumber() - 1) * 10;
     }
-
 
     private void setUserInfo() {
         userService.getUsersByNickname(getNickname()).enqueue(new Callback<User>() {
@@ -157,7 +141,6 @@ public class UserPage extends SuperPage {
         registerDate.setText(user.getCreatedAt().toString());
     }
 
-
     private void setUserPosts() {
         userService.getPosts(getNickname(), getOffset()).enqueue(new Callback<List<Post>>() {
             @Override
@@ -185,14 +168,19 @@ public class UserPage extends SuperPage {
         });
     }
 
-
     @Override
     public void init() {
         setUserPosts();
         setUserInfo();
-        if(State.isActiveAccount()){
+        if (State.isActiveAccount()) {
             feedbackAction.setDisable(false);
         }
+    }
+
+    @AllArgsConstructor
+    public static class Props implements SuperProps {
+        private int pageNumber;
+        private String nickname;
     }
 
 }

@@ -38,7 +38,7 @@ public class LoginPage extends SuperPage {
 
                 if (response.body() != null) {
                     State.setCredential(response.body());
-                    router.accept(AccountPage.class,null);
+                    router.accept(AccountPage.class, null);
                 }
             }
 
@@ -50,12 +50,12 @@ public class LoginPage extends SuperPage {
     }
 
     @FXML
-    private void register(){
-        router.accept(RegisterPage.class,null);
+    private void register() {
+        router.accept(RegisterPage.class, null);
     }
 
     @FXML
-    private void reset(){
-        router.accept(ResetPasswordPage.class,null);
+    private void reset() {
+        router.accept(ResetPasswordPage.class, null);
     }
 }

@@ -1,6 +1,7 @@
 package sample.services;
 
-import com.google.gson.*;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,7 +19,7 @@ public class RetrofitInstance {
             .build();
 
     private static Retrofit ourInstance = new Retrofit.Builder()
-           // .baseUrl("https://taraj.tk/api/v1/")
+            // .baseUrl("https://taraj.tk/api/v1/")
             .baseUrl("http://localhost:8080/api/v1/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(
@@ -29,11 +30,11 @@ public class RetrofitInstance {
             ))
             .build();
 
-    public static Retrofit getInstance() {
-        return ourInstance;
-    }
-
     private RetrofitInstance() {
 
+    }
+
+    public static Retrofit getInstance() {
+        return ourInstance;
     }
 }

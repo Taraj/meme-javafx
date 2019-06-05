@@ -11,21 +11,15 @@ import retrofit2.Response;
 import sample.dto.in.Post;
 import sample.util.AlertsFactory;
 import sample.util.Page;
-import sample.util.SuperProps;
 import sample.util.SuperPage;
+import sample.util.SuperProps;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Page(resource = "/pages/tag.fxml")
 public class TagPage extends SuperPage {
-
-    @AllArgsConstructor
-    public static class Props implements SuperProps {
-        private int pageNumber;
-        private String tag;
-    }
-
 
     @FXML
     private VBox mainContainer;
@@ -78,6 +72,12 @@ public class TagPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+
+    @AllArgsConstructor
+    public static class Props implements SuperProps {
+        private int pageNumber;
+        private String tag;
     }
 
 }

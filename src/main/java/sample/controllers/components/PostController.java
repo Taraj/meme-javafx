@@ -24,6 +24,7 @@ import sample.dto.in.Tag;
 import sample.dto.out.AddFeedback;
 import sample.util.AlertsFactory;
 import sample.util.SuperComponent;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,8 @@ public class PostController extends SuperComponent {
 
 
     private Post post;
+    @FXML
+    private HBox tagContainer;
 
     @FXML
     private void like() {
@@ -63,30 +66,26 @@ public class PostController extends SuperComponent {
     }
 
     @FXML
-    private HBox tagContainer;
-
-
-    @FXML
-    private void add(){
-    postsService.confirmPost(post.getId(),State.getToken()).enqueue(new Callback<Void>() {
-        @Override
-        public void onResponse(Call<Void> call, Response<Void> response) {
-            if (!response.isSuccessful()) {
-                AlertsFactory.responseStatusError(response.errorBody());
-                return;
+    private void add() {
+        postsService.confirmPost(post.getId(), State.getToken()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    AlertsFactory.responseStatusError(response.errorBody());
+                    return;
+                }
+                router.accept(MainPage.class, null);
             }
-            router.accept(MainPage.class, null);
-        }
 
-        @Override
-        public void onFailure(Call<Void> call, Throwable throwable) {
-            AlertsFactory.apiCallError(throwable);
-        }
-    });
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                AlertsFactory.apiCallError(throwable);
+            }
+        });
     }
 
     @FXML
-    private void delete(){
+    private void delete() {
 
         postsService.deletePost(post.getId(), State.getToken()).enqueue(new Callback<Void>() {
             @Override

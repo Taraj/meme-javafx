@@ -9,8 +9,6 @@ import retrofit2.Response;
 import sample.State;
 import sample.dto.in.AuthResponse;
 import sample.dto.out.Register;
-import sample.services.AuthService;
-import sample.services.RetrofitInstance;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;

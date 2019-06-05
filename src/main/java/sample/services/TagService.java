@@ -5,7 +5,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import sample.dto.in.Post;
-import sample.dto.in.Tag;
 
 import java.util.List;
 

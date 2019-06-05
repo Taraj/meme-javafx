@@ -2,24 +2,18 @@ package sample.controllers.pages;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-
-
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import sample.controllers.components.PostController;
 import sample.dto.in.Post;
 import sample.util.AlertsFactory;
 import sample.util.Page;
 import sample.util.SuperPage;
 import sample.util.SuperProps;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,11 +21,6 @@ import java.util.stream.Collectors;
 
 @Page(name = "Głowna", resource = "/pages/main.fxml")
 public class MainPage extends SuperPage {
-
-    @AllArgsConstructor
-    public static class Props implements SuperProps {
-        private int pageNumber;
-    }
 
     @FXML
     private VBox mainContainer;
@@ -83,6 +72,11 @@ public class MainPage extends SuperPage {
                 AlertsFactory.apiCallError(throwable);
             }
         });
+    }
+
+    @AllArgsConstructor
+    public static class Props implements SuperProps {
+        private int pageNumber;
     }
 
 }

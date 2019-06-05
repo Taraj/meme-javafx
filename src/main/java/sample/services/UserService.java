@@ -2,7 +2,8 @@ package sample.services;
 
 import retrofit2.Call;
 import retrofit2.http.*;
-import sample.dto.in.*;
+import sample.dto.in.Post;
+import sample.dto.in.User;
 import sample.dto.out.AddFeedback;
 
 import java.util.List;

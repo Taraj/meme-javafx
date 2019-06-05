@@ -39,10 +39,9 @@ public class ResetPasswordPage extends SuperPage {
     }
 
     @FXML
-    private void confirm(){
-        router.accept(ConfirmResetPasswordPage.class,null);
+    private void confirm() {
+        router.accept(ConfirmResetPasswordPage.class, null);
     }
-
 
 
 }

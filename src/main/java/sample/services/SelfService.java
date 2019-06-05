@@ -1,8 +1,9 @@
 package sample.services;
 
 import retrofit2.Call;
-import retrofit2.http.*;
-import sample.dto.in.User;
+import retrofit2.http.Body;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 import sample.dto.out.ActiveAccount;
 import sample.dto.out.ChangePassword;
 import sample.dto.out.SetAvatar;

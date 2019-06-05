@@ -44,7 +44,7 @@ public class CommentController extends SuperComponent {
     private HBox feedbackContainer;
 
     public void load(Comment comment) {
-        if(State.isActiveAccount()){
+        if (State.isActiveAccount()) {
             feedbackContainer.setDisable(false);
         }
 
@@ -66,7 +66,7 @@ public class CommentController extends SuperComponent {
         router.accept(UserPage.class, new UserPage.Props(1, comment.getAuthor().getNickname()));
     }
 
-    private void reLoadComment(){
+    private void reLoadComment() {
         commentService.getCommentById(comment.getId()).enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
